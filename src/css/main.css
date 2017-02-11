@@ -35,10 +35,20 @@ body {
 	text-align: center;
 }
 
-#table {
-	background: darkgrey;
-	border-bottom-left-radius: 15px; border-bottom-right-radius: 15px;
-	height: 460px
+#board {
+	width: 100%;
+}
+
+th {
+	min-width: 20px;
+}
+
+th, td {
+	height: 30px;
+}
+
+tr:nth-child(even) {
+    background-color: #eee;
 }
 
 

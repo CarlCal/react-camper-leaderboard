@@ -1,7 +1,7 @@
 
 import React from "react"
 
-import Table from "./Table"
+import Board from "./Board"
 import Title from "./Title"
 
 export default class Leaderboard extends React.Component {
@@ -9,7 +9,7 @@ export default class Leaderboard extends React.Component {
 		return (
 			<div id="leaderboard" class="container">
 				<Title />
-				<Table />
+				<Board />
 			</div>
 		)
 	}
