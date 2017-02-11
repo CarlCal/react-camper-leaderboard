@@ -4,40 +4,35 @@ import React from "react"
 
 import Row from "./row"
 
+const url = "https://fcctop100.herokuapp.com/api/fccusers/top/"
+
 export default class Board extends React.Component {
 
 	constructor() {
     super();
-    this.state = {users: []};
+    this.state = {users: [],
+    							target: "alltime"};
   }
 
   componentDidMount() {
     this.getUser();
   }
 
+  apiChange(e) {
+  	this.setState({target: e.target.value})
+  }
+
+  //These two set states should happen at the same time
+
   getUser() {
-	    return $.getJSON("https://fcctop100.herokuapp.com/api/fccusers/top/alltime")
+	    return $.getJSON(url+this.state.target)
 				      .then((data) => {
-				      	var arr = []
-
-				      	/*Check if for loop is quicker*/
-				      	data.forEach((element, i) => {
-				      		var user = {
-					      		key: (i + 1),
-					      		img: element.img,
-					      		name: element.username,
-					      		recent: element.recent,
-					      		alltime: element.alltime,
-					      	}
-
-					      	arr.push(user)
-
-					      	this.setState({users: arr})
-				      	})
+					      	this.setState({users: data})
 				      })
   }
 
 	render() {
+		this.getUser()
 		return (
 			<div class="table-responsive">					
 				<table id="board" class="table-bordered">
@@ -46,12 +41,14 @@ export default class Board extends React.Component {
 				    <th>#</th>
 				    <th>Camper Name</th> 
 					  <th><div class="radiowrapper" id="wrap1">
-							  	<input type="radio" name="sort" value="30Days" id="30-Days" />
+							  	<input type="radio" name="sort" value="recent" id="30-Days" 
+							  				 onChange={this.apiChange.bind(this)} checked={this.state.target == "recent"}/>
 							  	<label for="30-Days">Points in past 30 days</label>
 								</div>
 						</th>
 				    <th><div class="radiowrapper" id="wrap2">
-						    	<input type="radio" name="sort" value="allTime" id="all-Time" />
+						    	<input type="radio" name="sort" value="alltime" id="all-Time" 
+						    				 onChange={this.apiChange.bind(this)} checked={this.state.target == "alltime"}/>
 						    	<label for="all-Time">All time points</label>
 								</div>
 						</th>
