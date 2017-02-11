@@ -1,1 +1,1 @@
-the FreeCodeCamp camper-leaderboard react cahllange 
+the FreeCodeCamp camper-leaderboard challange
