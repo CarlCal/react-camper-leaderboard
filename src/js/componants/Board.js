@@ -11,44 +11,39 @@ export default class Board extends React.Component {
 	constructor() {
     super();
     this.state = {users: [],
-    							target: "alltime"};
+    							target: ''};
   }
 
   componentDidMount() {
     this.getUser();
   }
 
-  apiChange(e) {
-  	this.setState({target: e.target.value})
-  }
-
-  //These two set states should happen at the same time
-
-  getUser() {
-	    return $.getJSON(url+this.state.target)
-				      .then((data) => {
-					      	this.setState({users: data})
-				      })
+  getUser(e) {
+  	var value = (e === undefined) ? 'alltime' : e.target.value
+	  return $.getJSON(url+value)
+			      .then((data) => {
+				      	this.setState({users: data,
+				      								 target: value})
+			      })
   }
 
 	render() {
-		this.getUser()
 		return (
 			<div class="table-responsive">					
 				<table id="board" class="table-bordered">
 					<thead>
 				  <tr>
-				    <th>#</th>
-				    <th>Camper Name</th> 
-					  <th><div class="radiowrapper" id="wrap1">
+				    <th class="displayCenter">#</th>
+				    <th class="displayName">Camper Name</th> 
+					  <th class="displayCenter"><div class="radiowrapper" id="wrap1">
 							  	<input type="radio" name="sort" value="recent" id="30-Days" 
-							  				 onChange={this.apiChange.bind(this)} checked={this.state.target == "recent"}/>
+							  				 onChange={this.getUser.bind(this)} checked={this.state.target == "recent"}/>
 							  	<label for="30-Days">Points in past 30 days</label>
 								</div>
 						</th>
-				    <th><div class="radiowrapper" id="wrap2">
+				    <th class="displayCenter"><div class="radiowrapper" id="wrap2">
 						    	<input type="radio" name="sort" value="alltime" id="all-Time" 
-						    				 onChange={this.apiChange.bind(this)} checked={this.state.target == "alltime"}/>
+						    				 onChange={this.getUser.bind(this)} checked={this.state.target == "alltime"}/>
 						    	<label for="all-Time">All time points</label>
 								</div>
 						</th>
@@ -57,7 +52,7 @@ export default class Board extends React.Component {
 				  <tbody>
 				  {
 				  	this.state.users.map((user, i) => {
-				  		return <Row key={i} rowContent={user}/>
+				  		return <Row key={i} userIndex={i} rowContent={user}/>
 				  	})
 				  }
 				  </tbody>
