@@ -11,15 +11,15 @@ export default class Board extends React.Component {
 	constructor() {
     super();
     this.state = {users: [],
-    							target: ''};
+    							target: ''}
   }
 
   componentDidMount() {
-    this.getUser('alltime');
+    this.getUser()
   }
 
   getUser(e) {
-  	var value = (typeof e != 'string') ? e.target.value : e 
+  	var value = (this.state.target !== '') ? e.target.value : 'alltime' 
 	  return $.getJSON(url+value)
 			      .then((data) => {
 				      	this.setState({users: data,
